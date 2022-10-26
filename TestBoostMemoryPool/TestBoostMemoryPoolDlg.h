@@ -21,6 +21,7 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
 	void TestSimplePool();
+	void TestCppPool();
 	std::string GetUsedMemory();
 
 // 实现
@@ -36,4 +37,5 @@ protected:
 public:
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedButton2();
 };

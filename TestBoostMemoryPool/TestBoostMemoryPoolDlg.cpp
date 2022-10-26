@@ -60,6 +60,7 @@ ON_WM_PAINT()
 ON_WM_QUERYDRAGICON()
 ON_BN_CLICKED(IDC_BUTTON1, &CTestBoostMemoryPoolDlg::OnBnClickedButton1)
 ON_WM_TIMER()
+ON_BN_CLICKED(IDC_BUTTON2, &CTestBoostMemoryPoolDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 // CTestBoostMemoryPoolDlg 消息处理程序
@@ -141,13 +142,18 @@ HCURSOR CTestBoostMemoryPoolDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CTestBoostMemoryPoolDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	std::string str = std::string("used memory: ") + GetUsedMemory();
+	SetWindowTextA(m_hWnd, str.c_str());
+}
+
 void CTestBoostMemoryPoolDlg::OnBnClickedButton1()
 {
 	TestSimplePool();
 }
 
-void CTestBoostMemoryPoolDlg::OnTimer(UINT_PTR nIDEvent)
+void CTestBoostMemoryPoolDlg::OnBnClickedButton2()
 {
-	std::string str = std::string("used memory: ") + GetUsedMemory();
-	SetWindowTextA(m_hWnd, str.c_str());
+	TestCppPool();
 }
