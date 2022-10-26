@@ -55,12 +55,12 @@ void CallCppPool()
 {
 	object_pool<CTest> pl;
 
-	for (size_t i = 0; i < 1024; i++) {
+	for (size_t i = 0; i < 2048; i++) {
 		CTest *obj1 = pl.construct();
 		CTest *obj2 = pl.construct(i);
 
-		ATLTRACE("[%d/%d] pointer: %p  %p \n", i + 1, 1024, obj1, obj2);
-		Sleep(10);
+		ATLTRACE("[%d/%d] pointer: %p  %p \n", i + 1, 2048, obj1, obj2);
+		Sleep(GetTickCount() * GetCurrentThreadId() % 200);
 
 		//错误！这样调用 并不会调用析构函数
 		//pl.free(obj1);
@@ -68,7 +68,6 @@ void CallCppPool()
 
 		pl.destroy(obj1);
 		pl.destroy(obj2);
-
 	}
 
 	MessageBoxA(hMainWnd, "Click OK to free all memory", "Note", 0);
@@ -106,5 +105,9 @@ void CTestBoostMemoryPoolDlg::TestSimplePool()
 
 void CTestBoostMemoryPoolDlg::TestCppPool()
 {
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testCppPool, 0, 0);
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testCppPool, 0, 0);
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testCppPool, 0, 0);
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testCppPool, 0, 0);
 	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testCppPool, 0, 0);
 }
