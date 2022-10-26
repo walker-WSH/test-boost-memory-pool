@@ -27,11 +27,12 @@ private:
 	std::shared_ptr<char> m_buf;
 };
 
+// 使用默认分配器，其内部使用new[]、delete[]分配内存
+// 注意：这个pool对象释放的时候 会释放所有通过其申请的堆内存
+std::shared_ptr<pool<>> testMemPool = std::make_shared<pool<>>(ONE_MB);
+
 void CallSimplePool()
 {
-	// 使用默认分配器，其内部使用new[]、delete[]分配内存
-	// 注意：这个pool对象释放的时候 会释放所有通过其申请的堆内存
-	std::shared_ptr<pool<>> testMemPool = std::make_shared<pool<>>(ONE_MB);
 
 	char *p = static_cast<char *>(testMemPool->malloc());
 	assert(testMemPool->is_from(p));
@@ -43,12 +44,12 @@ void CallSimplePool()
 
 	for (int i = 0; i < 1024; ++i) {
 		void *ret = testMemPool->malloc();
-		ATLTRACE("[%d/%d] pointer: %p \n", i + 1, 1024, ret);
-		Sleep(10);
+		ATLTRACE("[%d/%d] pointer: %p  tid:%u \n", i + 1, 1024, ret, GetCurrentThreadId());
+		testMemPool->free(ret);
+		Sleep(GetTickCount() * GetCurrentThreadId() % 200);
 	}
 
-	MessageBoxA(hMainWnd, "Click OK to free all memory", "Note", 0);
-	// 函数结束时 pool对象会析构 其申请的所有堆内存 都会被释放
+	MessageBoxA(hMainWnd, "Test end", "Note", 0);
 }
 
 void CallCppPool()
@@ -100,6 +101,10 @@ static unsigned __stdcall ThreadFunc(void *pParam)
 
 void CTestBoostMemoryPoolDlg::TestSimplePool()
 {
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testSimple, 0, 0);
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testSimple, 0, 0);
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testSimple, 0, 0);
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testSimple, 0, 0);
 	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testSimple, 0, 0);
 }
 
