@@ -56,8 +56,9 @@ void CallSimplePool()
 void CallCppPool()
 {
 	// 注意：
-	// 这个对象应该不是线程安全的 当声明为全局变量时 多个线程同时访问就会偶现crash
-	object_pool<CTest> pl; 
+	// object_pool 不是线程安全的 当声明为全局变量时 多个线程同时访问就会偶现crash
+	// https://stackoverflow.com/questions/19347890/how-to-get-boostobject-pool-thread-safe
+	object_pool<CTest> pl;
 
 	for (size_t i = 0; i < 2048; i++) {
 		CTest *obj1 = pl.construct();
