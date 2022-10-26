@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include <string>
 
 // CTestBoostMemoryPoolDlg 对话框
 class CTestBoostMemoryPoolDlg : public CDialogEx
@@ -21,6 +21,7 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
 	void TestSimplePool();
+	std::string GetUsedMemory();
 
 // 实现
 protected:
@@ -34,4 +35,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

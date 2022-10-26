@@ -59,10 +59,11 @@ ON_WM_SYSCOMMAND()
 ON_WM_PAINT()
 ON_WM_QUERYDRAGICON()
 ON_BN_CLICKED(IDC_BUTTON1, &CTestBoostMemoryPoolDlg::OnBnClickedButton1)
+ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 // CTestBoostMemoryPoolDlg 消息处理程序
-
+HWND hMainWnd = 0;
 BOOL CTestBoostMemoryPoolDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -91,6 +92,8 @@ BOOL CTestBoostMemoryPoolDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE); // 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	hMainWnd = m_hWnd;
+	SetTimer(1000, 100, 0);
 
 	return TRUE; // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -141,4 +144,10 @@ HCURSOR CTestBoostMemoryPoolDlg::OnQueryDragIcon()
 void CTestBoostMemoryPoolDlg::OnBnClickedButton1()
 {
 	TestSimplePool();
+}
+
+void CTestBoostMemoryPoolDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	std::string str = std::string("used memory: ") + GetUsedMemory();
+	SetWindowTextA(m_hWnd, str.c_str());
 }

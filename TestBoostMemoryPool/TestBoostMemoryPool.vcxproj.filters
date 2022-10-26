@@ -47,6 +47,9 @@
     <ClCompile Include="TestBoostMemoryPoolDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="UsedMemory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TestBoostMemoryPool.rc">

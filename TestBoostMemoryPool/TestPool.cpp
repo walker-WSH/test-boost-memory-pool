@@ -10,6 +10,7 @@
 using namespace boost;
 
 const auto ONE_MB = (1024 * 1024);
+extern HWND hMainWnd;
 
 void TestSimplePool()
 {
@@ -32,7 +33,7 @@ void TestSimplePool()
 	}
 
 	OutputDebugStringA("func to end, press any key to free all memory \n");
-	MessageBoxA(0, "Click OK to free all memory", "Note", 0);
+	MessageBoxA(hMainWnd, "Click OK to free all memory", "Note", 0);
 	// 函数结束时 pool对象会析构 其申请的所有堆内存 都会被释放
 }
 

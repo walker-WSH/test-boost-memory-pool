@@ -204,6 +204,7 @@
     <ClCompile Include="TestBoostMemoryPool.cpp" />
     <ClCompile Include="TestBoostMemoryPoolDlg.cpp" />
     <ClCompile Include="TestPool.cpp" />
+    <ClCompile Include="UsedMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TestBoostMemoryPool.rc" />
