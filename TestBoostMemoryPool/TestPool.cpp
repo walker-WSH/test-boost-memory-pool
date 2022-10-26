@@ -29,11 +29,11 @@ private:
 
 // 使用默认分配器，其内部使用new[]、delete[]分配内存
 // 注意：这个pool对象释放的时候 会释放所有通过其申请的堆内存
-std::shared_ptr<pool<>> testMemPool = std::make_shared<pool<>>(ONE_MB);
+
+static __declspec(thread) std::shared_ptr<pool<>> testMemPool = std::make_shared<pool<>>(ONE_MB);
 
 void CallSimplePool()
 {
-
 	char *p = static_cast<char *>(testMemPool->malloc());
 	assert(testMemPool->is_from(p));
 	testMemPool->free(p);
