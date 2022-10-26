@@ -60,7 +60,7 @@ void CallCppPool()
 		CTest *obj2 = pl.construct(i);
 
 		ATLTRACE("[%d/%d] pointer: %p  %p \n", i + 1, 2048, obj1, obj2);
-		Sleep(GetTickCount() * GetCurrentThreadId() % 200);
+		Sleep(GetTickCount() * GetCurrentThreadId() % 400);
 
 		//错误！这样调用 并不会调用析构函数
 		//pl.free(obj1);
@@ -70,7 +70,7 @@ void CallCppPool()
 		pl.destroy(obj2);
 	}
 
-	MessageBoxA(hMainWnd, "Click OK to free all memory", "Note", 0);
+	MessageBoxA(hMainWnd, "Test end.\n Click OK to free all memory", "Note", 0);
 	// 函数结束时 pool对象会析构 其申请的所有堆内存 都会被释放
 }
 
