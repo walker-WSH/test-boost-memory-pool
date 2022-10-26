@@ -35,16 +35,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TestBoostMemoryPool.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="TestBoostMemoryPoolDlg.cpp">
+    <ClCompile Include="TestPool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>源文件</Filter>
+      <Filter>头文件</Filter>
     </ClCompile>
-    <ClCompile Include="TestPool.cpp">
+    <ClCompile Include="TestBoostMemoryPool.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestBoostMemoryPoolDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

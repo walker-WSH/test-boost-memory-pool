@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <assert.h>
 #include <memory>
+#include <process.h>
 
 #include <boost/pool/pool.hpp>
 using namespace boost;
@@ -26,23 +27,35 @@ void TestSimplePool()
 
 	for (int i = 0; i < 1024; ++i) {
 		void *ret = testMemPool->malloc();
-		printf("ret: %p \n", ret);
-		Sleep(50);
+		ATLTRACE("[%d/%d] pointer: %p \n", i + 1, 1024, ret);
+		Sleep(10);
 	}
 
 	OutputDebugStringA("func to end, press any key to free all memory \n");
-	Sleep(5000);
+	MessageBoxA(0, "Click OK to free all memory", "Note", 0);
 	// 函数结束时 pool对象会析构 其申请的所有堆内存 都会被释放
 }
 
-void LoopTestSimplePool()
+//--------------------------------------------------------------------------------
+enum class TestType {
+	testSimple = 0,
+};
+
+static unsigned __stdcall ThreadFunc(void *pParam)
 {
-	for (int i = 0; i < 100; ++i) {
+	switch (static_cast<enum TestType>((int)pParam)) {
+	case TestType::testSimple:
 		TestSimplePool();
+		break;
+
+	default:
+		break;
 	}
+
+	return 0;
 }
 
 void CTestBoostMemoryPoolDlg::TestSimplePool()
 {
-	// TODO
+	_beginthreadex(0, 0, ThreadFunc, (void *)TestType::testSimple, 0, 0);
 }
