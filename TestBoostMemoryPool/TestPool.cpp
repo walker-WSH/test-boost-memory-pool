@@ -27,8 +27,9 @@ private:
 	std::shared_ptr<char> m_buf;
 };
 
-// 使用默认分配器，其内部使用new[]、delete[]分配内存
-// 注意：这个pool对象释放的时候 会释放所有通过其申请的堆内存
+// 注意：
+// 这个pool对象析构的时候 会释放所有通过其申请的堆内存
+// 但是pool对象析构之前 里面申请的内存并不会自动被释放
 
 static __declspec(thread) std::shared_ptr<pool<>> testMemPool = std::make_shared<pool<>>(ONE_MB);
 
@@ -54,7 +55,9 @@ void CallSimplePool()
 
 void CallCppPool()
 {
-	object_pool<CTest> pl;
+	// 注意：
+	// 这个对象应该不是线程安全的 当声明为全局变量时 多个线程同时访问就会偶现crash
+	object_pool<CTest> pl; 
 
 	for (size_t i = 0; i < 2048; i++) {
 		CTest *obj1 = pl.construct();
@@ -63,7 +66,7 @@ void CallCppPool()
 		ATLTRACE("[%d/%d] pointer: %p  %p \n", i + 1, 2048, obj1, obj2);
 		Sleep(GetTickCount() * GetCurrentThreadId() % 400);
 
-		//错误！这样调用 并不会调用析构函数
+		//注意：错误！这样调用 并不会调用析构函数
 		//pl.free(obj1);
 		//pl.free(obj2);
 
@@ -71,8 +74,7 @@ void CallCppPool()
 		pl.destroy(obj2);
 	}
 
-	MessageBoxA(hMainWnd, "Test end.\n Click OK to free all memory", "Note", 0);
-	// 函数结束时 pool对象会析构 其申请的所有堆内存 都会被释放
+	MessageBoxA(hMainWnd, "Test end", "Note", 0);
 }
 
 //--------------------------------------------------------------------------------
