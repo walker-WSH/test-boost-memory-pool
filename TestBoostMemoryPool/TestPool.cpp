@@ -31,7 +31,8 @@ private:
 // 这个pool对象析构的时候 会释放所有通过其申请的堆内存
 // 但是pool对象析构之前 里面申请的内存并不会自动被释放
 
-static __declspec(thread) std::shared_ptr<pool<>> testMemPool = std::make_shared<pool<>>(ONE_MB);
+//static __declspec(thread) std::shared_ptr<pool<>> testMemPool = std::make_shared<pool<>>(ONE_MB);
+static std::shared_ptr<pool<>> testMemPool = std::make_shared<pool<>>(ONE_MB);
 
 void CallSimplePool()
 {
@@ -47,7 +48,7 @@ void CallSimplePool()
 		void *ret = testMemPool->malloc();
 		ATLTRACE("[%d/%d] pointer: %p  tid:%u \n", i + 1, 1024, ret, GetCurrentThreadId());
 		testMemPool->free(ret);
-		Sleep(GetTickCount() * GetCurrentThreadId() % 200);
+		Sleep(GetTickCount() * GetCurrentThreadId() % 50);
 	}
 
 	MessageBoxA(hMainWnd, "Test end", "Note", 0);
